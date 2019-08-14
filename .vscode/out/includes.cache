@@ -1,0 +1,27 @@
+[
+  {
+    "Sourcefile": "",
+    "Include": "",
+    "Includepath": "C:\\Opt\\arduino-1.8.9\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": "",
+    "Include": "",
+    "Includepath": "C:\\Opt\\arduino-1.8.9\\hardware\\arduino\\avr\\variants\\mega"
+  },
+  {
+    "Sourcefile": "c:\\Users\\dw06\\Documents\\Arduino\\WiFiCar\\.vscode\\out\\sketch\\WiFiCar.ino.cpp",
+    "Include": "AFMotor.h",
+    "Includepath": "C:\\Users\\dw06\\Documents\\Arduino\\libraries\\Adafruit_Motor_Shield_library"
+  },
+  {
+    "Sourcefile": "c:\\Users\\dw06\\Documents\\Arduino\\WiFiCar\\.vscode\\out\\sketch\\WiFiCar.ino.cpp",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\dw06\\Documents\\Arduino\\libraries\\Adafruit_Motor_Shield_library\\AFMotor.cpp",
+    "Include": "",
+    "Includepath": ""
+  }
+]

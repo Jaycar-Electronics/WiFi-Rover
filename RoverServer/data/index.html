@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WiFi car</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+<style type="text/css">
+body { 
+  margin: 0px; 
+  overflow: hidden; 
+}
+div#pad{
+  margin: 0;
+  padding: 0;
+  border: 1px solid black;
+  background: url("background.png");
+  background-size: 100% 100%;
+}
+
+</style>
+<script type="text/javascript">
+var pad;
+var w = 10;
+var h = 10;
+var timer;
+var updateStarted = false;
+var touches = [];
+var stopped = true;
+
+function stop(){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/data", true);
+  xhr.setRequestHeader('Content-Type', "application/x-www-form-urlencoded; charset=UTF-8");
+  xhr.send('left=100&right=100');
+  stopped = true;
+}
+
+function update() {
+
+  if (updateStarted) return;
+  if (stopped) return;
+
+	updateStarted = true;
+  var i, len = touches.length;
+
+  //find minimum y, which will be the left, other will be right
+  if (len < 2){ //cancel if we don't have atleast 2
+
+    stop();
+    updateStarted = false;
+    return
+  }
+
+  var leftTouch; 
+  var rightTouch;
+
+  if(touches[0].pageY > touches[1].pageY){
+    leftTouch = touches[1];
+    rightTouch = touches[0];
+  } else {
+    leftTouch = touches[0];
+    rightTouch = touches[1];
+  }
+
+  //convert the value from 0 -> width; as 0 -> 255
+  var leftValue = parseInt((leftTouch.pageX/w) * 255); 
+  var rightValue = parseInt((rightTouch.pageX/w) * 255); 
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/data", true);
+  xhr.setRequestHeader('Content-Type', "application/x-www-form-urlencoded; charset=UTF-8");
+  xhr.send(`left=${leftValue}&right=${rightValue}`);
+
+	updateStarted = false;
+}
+
+function ol() {
+	pad = document.getElementById('pad');
+  
+  var nw = window.innerWidth;
+	var nh = window.innerHeight;
+	if ((w != nw) || (h != nh)) {
+		w = nw;
+		h = nh;
+  }
+
+  pad.style.width = w+'px';
+  pad.style.height = h+'px';
+  pad.innerHTML = '';
+
+  timer = setInterval(update, 500);
+
+  pad.addEventListener('touchend', function() {
+    stop();
+  });
+  pad.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    touches = event.touches;
+    if (touches.length == 2){
+      stopped = false;
+    }
+  });
+  pad.addEventListener('touchstart', function(event) {
+    console.log('start');
+  });
+};
+
+</script>
+</head>
+<body onload="ol()">
+<div id='pad'>Loading...</div>	
+</body>
+</html>
