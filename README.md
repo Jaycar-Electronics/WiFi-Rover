@@ -39,7 +39,7 @@
 
 ### You might also want
 
-- Heatshrink ( [WH5524](https://jaycar.com.au/p/HP0410) )
+- Heatshrink ( [WH5524](https://jaycar.com.au/p/WH5524) )
 
 ## Software & Libraries
 
@@ -199,12 +199,12 @@ If you can't find the server / and general troubleshooting:
 ### In AP mode (default)
 
 - Make sure that you can see and connect to the `WiFi Rover` network on your mobile phone;
-  - If not, you might have to debug the ESP code again; disconnect the shield and put some `Serial.println` in the code so that you can see what the ESP is doing and perhaps why it is not making the Hotspot.
-  - The code you are looking for is `WiFimode(WIFI_AP); WiFi.softAP(networkName, password);`
+    - If not, you might have to debug the ESP code again; disconnect the shield and put some `Serial.println` in the code so that you can see what the ESP is doing and perhaps why it is not making the Hotspot.
+    - The code you are looking for is `WiFimode(WIFI_AP); WiFi.softAP(networkName, password);`
 - If you can connect, but can't connect to `http://192.168.4.1`
-  - Try wait a little while, as the server might not be up yet; go make a a cup of tea.
-  - you can try checking the `WiFi.LocalIP()` command to get the server IP address.
-  - If you have an iphone, you can try to access the `http://rover.local` website.
+    - Try wait a little while, as the server might not be up yet; go make a a cup of tea.
+    - you can try checking the `WiFi.LocalIP()` command to get the server IP address.
+    - If you have an iphone, you can try to access the `http://rover.local` website.
 
 ### In Network mode ( connecting to existing network)
 
@@ -212,7 +212,7 @@ If you can't find the server / and general troubleshooting:
 - Try accessing `http://rover.local` on your computer
 - Check the esp code for `WiFi.LocalIP()`
 
-If these commands aren't quite helping you get it, put some `Serial.println()` in the code and see what the ESP is reporting; You can check out things on the issue tracker: <https://github.com/Jaycar-Electronics/WiFi-Rover/Issues>
+If these commands aren't quite helping you get it, put some `Serial.println()` in the code and see what the ESP is reporting; You can check out things on the issue tracker: <https://github.com/Jaycar-Electronics/WiFi-Rover/issues>
 
 ## Future Improvements
 
