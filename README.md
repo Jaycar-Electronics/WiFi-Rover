@@ -35,7 +35,7 @@
 | 1   | [HP0425](https://jaycar.com.au/p/HP0425) | M3 Nut             |
 | 1   | [HP0148](https://jaycar.com.au/p/HP0148) | M3 Washers         |
 | 1   | [PH9200](https://jaycar.com.au/p/PH9200) | Battery Holder 4AA |
-| 1   | [RC5360](https://jaycar.com.au/p/RC5360) | Ceramic Caps 100nF |
+| 6   | [RC5360](https://jaycar.com.au/p/RC5360) | Ceramic Caps 100nF |
 
 ### You might also want
 
