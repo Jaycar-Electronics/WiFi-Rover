@@ -51,7 +51,7 @@ You should also get the [ESP Data Upload Tool](https://github.com/esp8266/arduin
 
 Follow the instructions to set that up.
 
-**Note:** When uploading the ESP8266 (webserver, data upload tool) it is important to first set the board-type to `ESP8266`.
+**Note:** When uploading the ESP8266 (webserver and data upload tool) it is important to first set the board-type to `ESP8266`.
 
 This is done by following the manual found on the product page for [XC3802](https://jaycar.com.au/p/XC3802). This allows you to set parameters and upload data to the WiFi portion of [XC4421](https://jaycar.com.au/p/XC4421).
 
