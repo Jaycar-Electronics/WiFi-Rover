@@ -1,6 +1,6 @@
 # WiFi Rover
 
- Control our new 4WD metal Chassis car kit (KR3166) with Wi-Fi via the new MEGA board with WiFi (XC4421) Simple 2-board connection with motor shield, use this as a basis for your future robotic projects. Comes with mounting hardware and requires 8AA batteries.
+Control our new 4WD metal Chassis car kit (KR3166) with Wi-Fi via the new MEGA board with WiFi (XC4421) Simple 2-board connection with motor shield, use this as a basis for your future robotic projects. Comes with mounting hardware and requires 8AA batteries.
 
 | Input        | Output         |
 | ------------ | -------------- |
@@ -51,6 +51,10 @@ You should also get the [ESP Data Upload Tool](https://github.com/esp8266/arduin
 
 Follow the instructions to set that up.
 
+**Note:** When uploading the ESP8266 (webserver, data upload tool) it is important to first set the board-type to `ESP8266`.
+
+This is done by following the manual found on the product page for [XC3802](https://jaycar.com.au/p/XC3802). This allows you to set parameters and upload data to the WiFi portion of [XC4421](https://jaycar.com.au/p/XC4421).
+
 ## System Overview
 
 ![System Overview](images/RoverSystem.png)
@@ -79,7 +83,7 @@ Then place the strap back in place, noting which way the notch is on.
 ![Step 4](images/step4.jpg)
 
 Finally,
- solder a capacitor across both terminals, and solder wires to connect up to the motor shield. Here we used the same orientation of wires (Blue on left, Orange on Right) so that it's easier to visually see the orientation of the motor connections when we connect it to the shield.
+solder a capacitor across both terminals, and solder wires to connect up to the motor shield. Here we used the same orientation of wires (Blue on left, Orange on Right) so that it's easier to visually see the orientation of the motor connections when we connect it to the shield.
 
 ![Step 5](images/step5.jpg)
 
@@ -103,7 +107,7 @@ Connect the dip switches so that the USB serial port connects to the MEGA - whic
 
 You should be able to upload the WiFi-Rover.ino sketch to the MEGA ( making sure that the correct board and port is selected. )
 
-This sketch works by capturing the `Serial3` data (Which can be connected to the ESP ) and splitting the data into left and right values; The real value is from the C function `strchr(char[], char);` which returns a *pointer to the string* at the first position of `char`.
+This sketch works by capturing the `Serial3` data (Which can be connected to the ESP ) and splitting the data into left and right values; The real value is from the C function `strchr(char[], char);` which returns a _pointer to the string_ at the first position of `char`.
 
 ```c
 //suppose buffer is: "456:123";
@@ -144,32 +148,31 @@ Then it receives any data being sent through the `http://192.168.4.1/data` route
 
 There's some of the magic in the Website code; we use the `touchend` `touchmove` and `touchstart` event listeners in Javascript to track the number of fingerpresses on the screen;
 
-Then, every half-second, we call the `update()` function -  if we have two fingers on the screen, we can send their position relative to the centre of the screen; if they are both in the general 'up' direction they send values relating to up, and if they are in the lower portion, they'll send values relating to down. through this, if one is up and one is down, they should send their correct values and the arduino will then move one set of motors forward and the other set backwards, so that the WiFi-Rover turns around.
+Then, every half-second, we call the `update()` function - if we have two fingers on the screen, we can send their position relative to the centre of the screen; if they are both in the general 'up' direction they send values relating to up, and if they are in the lower portion, they'll send values relating to down. through this, if one is up and one is down, they should send their correct values and the arduino will then move one set of motors forward and the other set backwards, so that the WiFi-Rover turns around.
 
 ```javascript
-
 var leftTouch;
 var rightTouch;
 
-if(touches[0].pageY > touches[1].pageY){
-    leftTouch = touches[1];
-    rightTouch = touches[0];
+if (touches[0].pageY > touches[1].pageY) {
+  leftTouch = touches[1];
+  rightTouch = touches[0];
 } else {
-    leftTouch = touches[0];
-    rightTouch = touches[1];
+  leftTouch = touches[0];
+  rightTouch = touches[1];
 }
 
 //convert the value from 0 -> width; as 0 -> 255
-var leftValue = parseInt((leftTouch.pageX/w) * 255);
-var rightValue = parseInt((rightTouch.pageX/w) * 255);
+var leftValue = parseInt((leftTouch.pageX / w) * 255);
+var rightValue = parseInt((rightTouch.pageX / w) * 255);
 
 var xhr = new XMLHttpRequest();
 xhr.open("POST", "/data", true);
 xhr.setRequestHeader(
-    'Content-Type',
-    "application/x-www-form-urlencoded; charset=UTF-8");
+  "Content-Type",
+  "application/x-www-form-urlencoded; charset=UTF-8"
+);
 xhr.send(`left=${leftValue}&right=${rightValue}`);
-
 ```
 
 You should be able to turn dip-switch `7` off, then reset the board and check the serial data through the serial port; Once you see the "Car" website, use both thumbs to drag up and down and check the data coming through the serial port:
@@ -199,12 +202,12 @@ If you can't find the server / and general troubleshooting:
 ### In AP mode (default)
 
 - Make sure that you can see and connect to the `WiFi Rover` network on your mobile phone;
-    - If not, you might have to debug the ESP code again; disconnect the shield and put some `Serial.println` in the code so that you can see what the ESP is doing and perhaps why it is not making the Hotspot.
-    - The code you are looking for is `WiFimode(WIFI_AP); WiFi.softAP(networkName, password);`
+  - If not, you might have to debug the ESP code again; disconnect the shield and put some `Serial.println` in the code so that you can see what the ESP is doing and perhaps why it is not making the Hotspot.
+  - The code you are looking for is `WiFimode(WIFI_AP); WiFi.softAP(networkName, password);`
 - If you can connect, but can't connect to `http://192.168.4.1`
-    - Try wait a little while, as the server might not be up yet; go make a a cup of tea.
-    - you can try checking the `WiFi.LocalIP()` command to get the server IP address.
-    - If you have an iphone, you can try to access the `http://rover.local` website.
+  - Try wait a little while, as the server might not be up yet; go make a a cup of tea.
+  - you can try checking the `WiFi.LocalIP()` command to get the server IP address.
+  - If you have an iphone, you can try to access the `http://rover.local` website.
 
 ### In Network mode ( connecting to existing network)
 
