@@ -1,41 +1,21 @@
 # WiFi Rover
 
-Control our new 4WD metal Chassis car kit (KR3166) with Wi-Fi via the new MEGA board with WiFi (XC4421) Simple 2-board connection with motor shield, use this as a basis for your future robotic projects. Comes with mounting hardware and requires 8AA batteries.
+Control our new 4WD metal Chassis car kit ([KR3166](https://jaycar.com.au/p/KR3166)) with Wi-Fi via the new MEGA board with WiFi ([XC4421](https://jaycar.com.au/p/XC4421)) Simple 2-board connection with motor shield, use this as a basis for your future robotic projects. Comes with mounting hardware.
 
-| Input        | Output         |
-| ------------ | -------------- |
-| WiFi Control | Motor Movement |
-
-## Table of contents
-
-- [WiFi Rover](#WiFi-Rover)
-  - [Table of contents](#Table-of-contents)
-  - [Bill of Materials](#Bill-of-Materials)
-    - [You might also want](#You-might-also-want)
-  - [Software & Libraries](#Software--Libraries)
-  - [System Overview](#System-Overview)
-    - [4-Wheeled Chassis](#4-Wheeled-Chassis)
-    - [Arduino Motor Controller](#Arduino-Motor-Controller)
-    - [WiFi Controller](#WiFi-Controller)
-  - [Integeration](#Integeration)
-  - [Use](#Use)
-    - [In AP mode (default)](#In-AP-mode-default)
-    - [In Network mode ( connecting to existing network)](#In-Network-mode--connecting-to-existing-network)
-  - [Future Improvements](#Future-Improvements)
-  - [Futher Reading](#Futher-Reading)
+![](hero.jpg)
 
 ## Bill of Materials
 
-| Qty | Product                                  | Description        |
-| --- | ---------------------------------------- | ------------------ |
-| 1   | [KR3166](https://jaycar.com.au/p/KR3166) | 4WD metal chassis  |
-| 1   | [XC4421](https://jaycar.com.au/p/XC4421) | MEGA with WiFi     |
-| 1   | [XC4472](https://jaycar.com.au/p/XC4472) | Motor shield       |
-| 1   | [HP0418](https://jaycar.com.au/p/HP0418) | M3 Screw           |
-| 1   | [HP0425](https://jaycar.com.au/p/HP0425) | M3 Nut             |
-| 1   | [HP0148](https://jaycar.com.au/p/HP0148) | M3 Washers         |
-| 1   | [PH9200](https://jaycar.com.au/p/PH9200) | Battery Holder 4AA |
-| 6   | [RC5360](https://jaycar.com.au/p/RC5360) | Ceramic Caps 100nF |
+| Qty | Product                                  | Description           |
+| --- | ---------------------------------------- | --------------------- |
+| 1   | [KR3166](https://jaycar.com.au/p/KR3166) | 4WD metal chassis     |
+| 1   | [XC4421](https://jaycar.com.au/p/XC4421) | MEGA with WiFi        |
+| 1   | [XC4472](https://jaycar.com.au/p/XC4472) | Motor shield          |
+| 1   | [HP0418](https://jaycar.com.au/p/HP0418) | M3 Screw              |
+| 1   | [HP0425](https://jaycar.com.au/p/HP0425) | M3 Nut                |
+| 1   | [HP0148](https://jaycar.com.au/p/HP0148) | M3 Washers            |
+| 1   | [PH9251](https://jaycar.com.au/p/PH9251) | 9V DC Battery Adaptor |
+| 6   | [RC5360](https://jaycar.com.au/p/RC5360) | Ceramic Caps 100nF    |
 
 ### You might also want
 
@@ -55,145 +35,17 @@ Follow the instructions to set that up.
 
 This is done by following the manual found on the product page for [XC3802](https://jaycar.com.au/p/XC3802). This allows you to set parameters and upload data to the WiFi portion of [XC4421](https://jaycar.com.au/p/XC4421).
 
-## System Overview
+If you have never done the [XC4421](https://jaycar.com.au/p/XC4421) before, we suggest you look at the product manual for a quick "hello world" type of example.
 
-![System Overview](images/RoverSystem.png)
 
-We will use our XC4411 to operate two things at once; The ESP side will provide a website for someone to connect to (this is configured for a phone in this example) and receive commands from the phone to send to the arduino.
-
-The arduino portion of the XC4411 will then use that to power the actual motors on the KR3166 chassis.
-
-### 4-Wheeled Chassis
-
-We've copied the adafruit suggestions of using 3 capacitors per motor to filter out noise and electrical problems. Ultimately this is a cut copy
-Use a pair of pliers to gently unhook and remove the motor strap
-
-![Step 1](images/step1.jpg)
-
-Then solder a small blob on either side of the motor; you will have to apply heat for a while then press the solder into the motor to get it to stick; the motor body needs to be a bit hot. Use a file to roughen up the surface if needed.
-
-![Step 2](images/step2.jpg)
-
-Connect a capactior as shown, with one side on the metal chassis side, and the other connecting to the motor terminal. Do this to both sides.
-
-![Step 3](images/step3.jpg)
-
-Then place the strap back in place, noting which way the notch is on.
-
-![Step 4](images/step4.jpg)
-
-Finally,
-solder a capacitor across both terminals, and solder wires to connect up to the motor shield. Here we used the same orientation of wires (Blue on left, Orange on Right) so that it's easier to visually see the orientation of the motor connections when we connect it to the shield.
-
-![Step 5](images/step5.jpg)
-
-Mount the motors into the chassis and put a power switch where you want.
-
-We are connecting up the two battery packs in parallel; so that their setup looks like this:
-
-![Battery wiring](images/battery.png)
-
-Make sure the joins are covered so that there's no shorts happing across the metal chassis; The [WH5524](https://jaycar.com.au/p/WH5524) is great to have around the workbench for this very reason.
-
-It might be easier to mount the mega onto the chassis at this point; you should find a position where 3 of the mounting holes on the Mega line up with the chassis; use spacers to take it up off the metal chassis and bolt it in place.
-
-The shield should fit ontop just fine with the bolts sliding through it.
-
-### Arduino Motor Controller
-
-Simply connect the power from the battery packs and switch into the motor in port on the motor controller shield; that way, when the switch is powered on, it feeds the two battery banks into the `M+` and `GND` screw terminals on the motor sheild.
-
-Connect the dip switches so that the USB serial port connects to the MEGA - which should be default; if not, switches 3 and 4 are ON and the rest are OFF.
-
-You should be able to upload the WiFi-Rover.ino sketch to the MEGA ( making sure that the correct board and port is selected. )
-
-This sketch works by capturing the `Serial3` data (Which can be connected to the ESP ) and splitting the data into left and right values; The real value is from the C function `strchr(char[], char);` which returns a _pointer to the string_ at the first position of `char`.
-
-```c
-//suppose buffer is: "456:123";
-// {'4','5','6', ':' ,'1','2','3', null}
-
-char* seperator = strchr(buffer, ':');
-//get pointer to the ':' and change that into a null character
-*seperator = '\0';
-
-//now the entire buffer is:
-// {'4','5','6', null ,'1','2','3', null}
-//   |            |
-//   ^ buffer     ^ seperator
-
-// we can increment seperator to point to the 1,2,3;
-// effectively making 2 strings
-seperator += 1
-int leftPower = atoi(buffer);
-// { '4', '5', '6', null } or "456" or now just 456
-
-int rightPower = atoi(seperator);
-// { '1', '2', '3', null } or "123" or now just 123
-```
-
-### WiFi Controller
-
-The WiFi controller portion is fairly easy; We put the code for this in the `RoverServer` folder; open this folder in a new Arduino IDE window and change the Dip switches on the board to program the ESP ( switches 7, 6, 5 are ON, the rest are OFF).
-
-When uploading code to the ESP, make sure that you change the flash-size for the sketch to use `SPIFFS` - in our screenshot below, we used the `4M` option with `2M SPIFFS`; This just means that it will reserve 2Mb of space in memory for our website.
-
-![Rover Data](images/roverdata.png)
-
-Once the setting is configured correctly; Upload the code, then use the `ESP8266 Sketch Data Upload` tool from from the [Software & Libraries](#Software--Libraries) Section.
-
-The ESP portion of the code simply makes a website for the user to connect to; By default, this is it's own WiFi Hotspot named `WiFi-Rover` without any password, and will host it's server on `http://192.168.4.1` - apple and other devices that support `mDNS` will be able to connect to it via the `rover.local` hostname as well. You can change the `network
-
-Then it receives any data being sent through the `http://192.168.4.1/data` route and packages it into a `String` to send over the serial port to the Arduino. You can see here that we put the two arguments together with the `":"` between them; this corrosponds to the `':'` we search for in the arduino section.
-
-There's some of the magic in the Website code; we use the `touchend` `touchmove` and `touchstart` event listeners in Javascript to track the number of fingerpresses on the screen;
-
-Then, every half-second, we call the `update()` function - if we have two fingers on the screen, we can send their position relative to the centre of the screen; if they are both in the general 'up' direction they send values relating to up, and if they are in the lower portion, they'll send values relating to down. through this, if one is up and one is down, they should send their correct values and the arduino will then move one set of motors forward and the other set backwards, so that the WiFi-Rover turns around.
-
-```javascript
-var leftTouch;
-var rightTouch;
-
-if (touches[0].pageY > touches[1].pageY) {
-  leftTouch = touches[1];
-  rightTouch = touches[0];
-} else {
-  leftTouch = touches[0];
-  rightTouch = touches[1];
-}
-
-//convert the value from 0 -> width; as 0 -> 255
-var leftValue = parseInt((leftTouch.pageX / w) * 255);
-var rightValue = parseInt((rightTouch.pageX / w) * 255);
-
-var xhr = new XMLHttpRequest();
-xhr.open("POST", "/data", true);
-xhr.setRequestHeader(
-  "Content-Type",
-  "application/x-www-form-urlencoded; charset=UTF-8"
-);
-xhr.send(`left=${leftValue}&right=${rightValue}`);
-```
-
-You should be able to turn dip-switch `7` off, then reset the board and check the serial data through the serial port; Once you see the "Car" website, use both thumbs to drag up and down and check the data coming through the serial port:
-
-![Serial Data](images/serial.png)
-
-Remember to flick switch `7` back on while programming, and any changes you to do the website will have to have the data-upload re-done.
-
-## Integeration
-
-Once the ESP and MEGA are working as expected; flip all dip-switches off except for switches 1 and 2, then make sure the serial selector swtich is on TX3/RX3. Then put the motor shield on top of the device and make sure all the motor and power cables are connected properly.
-
-![Motor connections](images/motor.png)
-
-You should be able to reset the board; find the network, connect, load up the website on your phone and drive the motors via dragging up and down on either of the switch paddles.
+## Building instructions
+<div id='instructions'> For instructions for how to build, check out https://jaycar.com.au/wifi-rover/ </div>
 
 ## Use
 
 Simply connect to the website, then slide fingers up on both of the "paddles".
 
-![How to Use](images/use.png)
+![How to Use](docs/images/use.png)
 
 This will tell both the left and right pairs of motors to turn on at full speed, you can turn by reversing one side of the rover, or reverse both sides to move in reverse.
 
