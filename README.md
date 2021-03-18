@@ -39,7 +39,7 @@ If you have never done the [XC4421](https://jaycar.com.au/p/XC4421) before, we s
 
 
 ## Building instructions
-<div id='instructions'> For instructions for how to build, check out https://jaycar.com.au/wifi-rover/ </div>
+<div id='instructions'> For instructions for how to build, check out https://jaycar.com.au/wifi-rover </div>
 
 ## Use
 
