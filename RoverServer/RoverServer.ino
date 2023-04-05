@@ -18,7 +18,7 @@ void setup(void)
 
     /*
     WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
+    WiFi.begin("ssid", "password");
      */
     // For making ESP network by itself, do below:
     WiFi.mode(WIFI_AP); 
